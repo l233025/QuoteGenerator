@@ -27,26 +27,6 @@ const quotes = [
 ];
 
 export default function App() {
-  // const [fetchedQuotes, setFetchedQuotes] = useState([]);
-  // useEffect(() => {
-  //   async function fetchQuotes() {
-  //     try {
-  //       const response = await fetch("https://api.quotable.io/quotes");
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! status: ${response.status}`);
-  //       }
-  //       const data = await response.json();
-  //       setFetchedQuotes(data.results);
-  //       if (data.results.length > 0) {
-  //         setQuote(data.results[0]);
-  //       }
-  //     } catch (error) {
-  //       console.error("Failed to fetch quotes:", error);
-  //     }
-  //   }
-
-  //   fetchQuotes();
-  // }, []);
   const [quote, setQuote] = useState(
     quotes[0] || {
       text: "Loading...",
