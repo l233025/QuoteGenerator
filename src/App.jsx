@@ -1,6 +1,6 @@
 import "./App.css";
 import "./index.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DisplayQuotes from "./DisplayQuotes";
 
 const quotes = [
@@ -27,24 +27,57 @@ const quotes = [
 ];
 
 export default function App() {
-  const [quote, setQuote] = useState(
-    quotes[0] || {
-      text: "Loading...",
-      author: "Loading...",
-    }
-  );
+  // const [fetchedQuotes, setFetchedQuotes] = useState([]);
 
+  // useEffect(() => {
+  //   async function fetchQuotes() {
+  //     try {
+  //       const response = await fetch("https://api.quotable.io/random");
+
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! status: ${response.status}`);
+  //       }
+
+  //       const data = await response.json();
+  //       console.log("Fetched quotes:", data);
+  //       setFetchedQuotes([data]);
+  //       if (data.results.length > 0) {
+  //         setQuote(data.results[0]);
+  //       }
+  //     } catch (error) {
+  //       console.error("Failed to fetch quote:", error);
+  //       setQuote({ text: "Failed to fetch quote", author: "Error" });
+  //     }
+  //   }
+
+  //   fetchQuotes();
+  // }, []);
+  const [quote, setQuote] = useState(quotes[0] || null);
   const [loading, setLoading] = useState(false);
 
   function getRandomQuote() {
-    if (quotes.length === 0) return;
+    if (quotes.length === 0) {
+      setLoading(true);
+      setTimeout(() => {
+        setQuote({ text: "failed to fetch quotes", author: "Error" });
+        setLoading(false);
+      }, 2000);
+      return;
+    }
 
     setLoading(true);
 
     setTimeout(() => {
-      const randomIndex = Math.floor(Math.random() * quotes.length);
-      setQuote(quotes[randomIndex]);
-      setLoading(false);
+      try {
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        setQuote(quotes[randomIndex]);
+        setLoading(false);
+      } catch (error) {
+        setTimeout(() => {
+          setQuote({ text: error, author: "" });
+          setLoading(false);
+        }, 1000);
+      }
     }, 1000);
   }
 
